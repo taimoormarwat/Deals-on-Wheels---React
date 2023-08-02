@@ -1,0 +1,15 @@
+.round-image {
+  height: 100px;
+  background-color: black;
+  border-radius: 50%;
+  max-width: 100px;
+  object-fit: cover;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card {
+  transition: transform 0.3s;
+}
