@@ -61,6 +61,7 @@ export default function Signup() {
         localStorage.setItem("token",data.jwt);
         getUserFromToken();
         navigate('/');
+        window.location.reload();
 
       } else {
         // Registration failed

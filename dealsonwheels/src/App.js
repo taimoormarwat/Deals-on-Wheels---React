@@ -22,8 +22,8 @@ import { getUserFromToken } from "./utils/auth.js";
 import ViewAd from "./components/ViewAd";
 import UserDash from "./components/UserDash";
 import AdminDash from "./components/AdminDash";
-import Modal from "./components/Modal";
 import Logout from "./components/Logout";
+import Profile from "./components/Profile";
 
 
 function App() {
@@ -78,6 +78,7 @@ function App() {
             {allow('/userdash') && <Route path="/userdash" exact element={<UserDash />} />}
             {allow('/admindash') && <Route path="/admindash" exact element={<AdminDash />} />}
             {allow('/logout') && <Route path="/logout" exact element={<Logout />} />}
+            {allow('/profile') && <Route path="/profile" exact element={<Profile />} />}
 
             // Redirects
             {!allow('/newad') && <Route path="/newad" exact element={<Signup />} />}

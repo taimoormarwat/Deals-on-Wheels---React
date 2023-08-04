@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useRef,useEffect } from "react";
 
 import logo from "../logo.png";
 import { Link } from "react-router-dom";
@@ -9,6 +9,34 @@ export default function Navbar(props) {
   const name = useSelector((state) => state.authReducer.name);
   const img = useSelector((state) => state.authReducer.img);
 
+  const [darkMode,setDarkMode]=useState(localStorage.getItem('mode').length);
+  const ref = useRef(true);
+
+  const changeMode=()=>{
+    setDarkMode(!darkMode);
+    if(!darkMode){
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+      localStorage.setItem('mode','1');
+    }
+    else{
+      document.documentElement.setAttribute('data-bs-theme', 'light');
+      localStorage.setItem('mode','');
+
+    }
+  }
+
+  useEffect(() => {
+    const firstRender = ref.current;
+
+    if (firstRender) {
+      ref.current = false;
+      if(darkMode){
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+        localStorage.setItem('mode','1');
+      }  
+
+    } 
+  })
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -72,13 +100,16 @@ export default function Navbar(props) {
                   </li>
                 ))}
               </ul>
-              <div class="form-check form-switch">
-  <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked/>
-  <label className="form-check-label" htmlForfor="flexSwitchCheckChecked">Dark Mode</label>
-</div>
                 {/* <button onClick={()=>{document.documentElement.setAttribute('data-bs-theme', 'dark')}}>Change mode</button> */}
+
             </li>
+            
           </ul>
+          <div className="form-check form-switch">
+  <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onChange={changeMode} checked={darkMode}/>
+  <label className="form-check-label" style={{color:"white"}} htmlFor="flexSwitchCheckChecked">Dark Mode</label>
+</div>
+
         </div>
       </div>
     </nav>

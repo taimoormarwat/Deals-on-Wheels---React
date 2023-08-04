@@ -42,6 +42,7 @@ class User
                     'name' => $result->name,
                     'email' => $result->email,
                     'img' => $result->img,
+                    'contact'=>$result->contact,
                     'role' => $result->role
                 );
 
@@ -137,6 +138,7 @@ class User
                     'name' => $data->name,
                     'email' => $data->email,
                     'img' => $imgurl,
+                    'contact'=>$data->contact,
                     'role' => $data->role
                 );
 
