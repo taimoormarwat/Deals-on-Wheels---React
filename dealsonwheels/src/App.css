@@ -6,8 +6,9 @@
   object-fit: cover;
 }
 
-.card:hover {
-  transform: scale(1.05);
+.cardScale:hover {
+  transform: scale(1.1);
+  z-index: 10;
 }
 
 .card {

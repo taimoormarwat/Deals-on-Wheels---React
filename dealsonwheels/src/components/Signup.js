@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import logo from "../logo.png";
 import { Link } from "react-router-dom";
+import apiUrl from '../const.js';
+import {getUserFromToken} from  '../utils/auth.js';
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
-  const [selectedImage, setSelectedImage] = useState(logo);
+  const navigate=useNavigate();
+
+  const [selectedImage, setSelectedImage] = useState('');
 
   const previewDp = (event) => {
     const file = event.target.files[0];
@@ -33,9 +38,12 @@ export default function Signup() {
         role: "user",
       };
 
+      console.log(user);
+
       // Send the data to the API using fetch
+      const url=apiUrl+"auth.php";
       const response = await fetch(
-        "http://localhost:8888/Api/dealsonwheels/endpoints/auth.php",
+        url,
         {
           method: "PUT",
           headers: {
@@ -50,7 +58,10 @@ export default function Signup() {
       if (data.status) {
         // Registration was successful
         console.log("Registration successful!");
-        // Do something here like redirecting to a success page or showing a success message.
+        localStorage.setItem("token",data.jwt);
+        getUserFromToken();
+        navigate('/');
+
       } else {
         // Registration failed
         console.log("Registration failed:", data.message);
@@ -73,7 +84,7 @@ export default function Signup() {
             <form className="form-floating" id="signupform">
               <img
                 id="profileImage"
-                src={selectedImage}
+                src={selectedImage==''?logo:selectedImage}
                 className="round-image"
                 alt="Profile Picture"
               />

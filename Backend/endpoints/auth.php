@@ -51,6 +51,7 @@ elseif($_SERVER["REQUEST_METHOD"]==="GET"){
             echo json_encode(array(
                 "status" => 1,
                 "message"=>"Access Granted",
+                "token"=>$token,
                 "data"=>$decodedData
             ));
 
@@ -69,3 +70,4 @@ elseif($_SERVER["REQUEST_METHOD"]==="GET"){
 
     }
 }
+

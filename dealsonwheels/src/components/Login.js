@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import logo from "../logo.png";
 import { Link } from "react-router-dom";
+import apiUrl from '../const.js';
+import {getUserFromToken} from  '../utils/auth.js';
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function Login() {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const navigate=useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -23,8 +31,9 @@ export default function Login() {
       };
 
       // Send the data to the API using fetch
+      const url=apiUrl+"auth.php";
       const response = await fetch(
-        "http://localhost:8888/Api/dealsonwheels/endpoints/auth.php",
+        url,
         {
           method: "POST",
           headers: {
@@ -38,7 +47,12 @@ export default function Login() {
       const data = await response.json();
       if (data.status==200) {
         console.log("Login successful!");
-        console.log(data.jwt);
+        localStorage.setItem("token",data.jwt);
+        getUserFromToken();
+        navigate('/');
+        window.location.reload();
+
+
 
       } else {
         console.log("Login failed:", data.message);

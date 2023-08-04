@@ -101,14 +101,18 @@ class User
                     exit;
                 }
             }
-                // Convert the base64-encoded image data to binary
-            $profilePicture = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $resultArray['img']));
+            // Convert the base64-encoded image data to binary
 
+            $imgurl='';
 
-            $imageFilePath =__DIR__ . "/../images/" . uniqid() . ".png";
+            if (strlen($resultArray['img']) > 0) {
+                $profilePicture = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $resultArray['img']));
+                $uniq = uniqid();
+                $imageFilePath = __DIR__ . "/../images/" . $uniq . ".png";
+                $imgurl = "http://localhost:8888/dealsonwheels/backend/images/" . $uniq . ".png";
 
-            $resultArray['img']=$imageFilePath;
-
+                $resultArray['img'] = $imgurl;
+            }
             $result = $this->database->insert($resultArray);
 
             if ($result instanceof Exception) {
@@ -126,10 +130,22 @@ class User
             }
 
             if (is_numeric($result)) {
-                file_put_contents($imageFilePath, $profilePicture);
+                if (strlen($resultArray['img']) > 0) {
+                    file_put_contents($imageFilePath, $profilePicture);
+                }
+                $userData = array(
+                    'name' => $data->name,
+                    'email' => $data->email,
+                    'img' => $imgurl,
+                    'role' => $data->role
+                );
+
+                // Generate a new JWT token
+                $token = generateToken($userData);
                 echo json_encode(array(
                     "status" => 1,
-                    "message" => "User created."
+                    "message" => "User created.",
+                    "jwt" => $token
                 ));
             }
 

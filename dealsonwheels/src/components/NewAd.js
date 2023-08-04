@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import apiUrl from '../const.js';
+import { store } from '../redux/store.js';
+
 
 export default function NewAd() {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -39,14 +42,17 @@ export default function NewAd() {
         images:selectedFiles
       };
 
+      const token=store.getState().authReducer.token;
       const headers = {
         'Content-Type': 'application/json',
-        "Authorization":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTA4NzUwMzksImV4cCI6MTY5MDk2MTQzOSwiZGF0YSI6eyJuYW1lIjoiVGFpbW9vciIsImVtYWlsIjoidGFpbW9vckB4eXouY29tIiwiaW1nIjoiL1VzZXJzL211aGFtbWFkLnRhaW1vb3IvRGV2ZWxvcGVyL0FwaS9kZWFsc29ud2hlZWxzL21vZGVsLy4uL2ltYWdlcy82NGM3ODhkNTdmMzQ2LnBuZyIsInJvbGUiOiJ1c2VyIn19.rVPc3L-S9jo0Fea-Vzv8XURD6kIVK3tyQxv0Eza07J0"
-    };
+        "Authorization":"Bearer "+token
+      };
   
+    const url=apiUrl+"ads.php";
+
       // Send the data to the API using fetch with the headers
       const response = await fetch(
-        'http://localhost:8888/Api/dealsonwheels/endpoints/ads.php/',
+        url,
         {
           method: 'POST',
           headers: headers,
@@ -151,6 +157,7 @@ export default function NewAd() {
         </div>
 
 
+<br/>
         <button type="submit" className="btn btn-primary">
           Post Ad
         </button>

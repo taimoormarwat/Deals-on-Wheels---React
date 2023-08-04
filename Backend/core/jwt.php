@@ -56,3 +56,34 @@ function getBearerTokenFromHeaders($headers)
     return null;
 }
 
+
+function isAdmin(){
+    $token = getBearerTokenFromHeaders(getallheaders());
+    if ($token != null) {
+        $decodedata = validateToken($token);
+        if ($decodedata !== false) {
+            if ($decodedata->role == 'admin') {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    } else {
+       return false;
+    }
+}
+
+function requester(){
+    $token = getBearerTokenFromHeaders(getallheaders());
+    if ($token != null) {
+        $decodedata = validateToken($token);
+        if ($decodedata !== false) {
+            return $decodedata->email;
+        } else {
+            return '';
+        }
+    } else {
+       return '';
+    }
+}
+

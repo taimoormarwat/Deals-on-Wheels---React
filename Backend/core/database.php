@@ -38,7 +38,7 @@ Trait Database
 			return $con->lastInsertId();
 		}
 
-		return $con->lastInsertId();
+		return true;
 
 
 	}
